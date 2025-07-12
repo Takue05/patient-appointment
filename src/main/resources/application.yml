@@ -1,14 +1,30 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
   datasource:
-    url: jdbc:h2:mem:appointment_db
-    driverClassName: org.h2.Driver
-    username: sa
+    url: jdbc:mysql://localhost:3306/pams_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
     password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        dialect: org.hibernate.dialect.MySQLDialect # Added this line
+
+  sql:
+    init:
+      mode: always
+
+axon:
+  eventhandling:
+    processors:
+      appointment:
+        mode: tracking
+      default:
+        mode: tracking
+
+  axonserver:
+      enabled: false

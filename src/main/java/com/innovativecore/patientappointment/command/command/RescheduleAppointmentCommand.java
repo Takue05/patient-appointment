@@ -1,6 +1,5 @@
 package com.innovativecore.patientappointment.command.command;
 
-import io.axoniq.axonserver.grpc.command.Command;
 
 import java.time.LocalDateTime;
 

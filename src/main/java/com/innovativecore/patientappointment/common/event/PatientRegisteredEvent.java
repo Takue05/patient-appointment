@@ -1,5 +1,6 @@
 package com.innovativecore.patientappointment.common.event;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 public class PatientRegisteredEvent extends BaseEvent<String>{
@@ -9,8 +10,9 @@ public class PatientRegisteredEvent extends BaseEvent<String>{
     private  final String gender;
     private  final String  contactNumber;
     private  final String  address;
+    private final Instant registeredAt;
 
-    public PatientRegisteredEvent(String id ,String firstName, String lastName, LocalDate dateOfBirth, String gender, String contactNumber, String address) {
+    public PatientRegisteredEvent(String id , String firstName, String lastName, LocalDate dateOfBirth, String gender, String contactNumber, String address, Instant registeredAt) {
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -18,6 +20,7 @@ public class PatientRegisteredEvent extends BaseEvent<String>{
         this.gender = gender;
         this.contactNumber = contactNumber;
         this.address = address;
+        this.registeredAt = registeredAt;
     }
 
     public String getFirstName() {
@@ -42,5 +45,8 @@ public class PatientRegisteredEvent extends BaseEvent<String>{
 
     public String getAddress() {
         return address;
+    }
+    public Instant getRegisteredAt() {
+        return registeredAt;
     }
 }

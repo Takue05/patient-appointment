@@ -25,7 +25,10 @@ public class AppointmentCommandService {
                 registerPatientRequest.getDateOfBirth(),
                 registerPatientRequest.getGender(),
                 registerPatientRequest.getContactNumber(),
-                registerPatientRequest.getAddress()
+                registerPatientRequest.getAddress(),
+                registerPatientRequest.getRegisteredAt()
+
+
         ));
 
     }

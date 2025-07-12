@@ -1,5 +1,6 @@
 package com.innovativecore.patientappointment.command.command;
 
+import java.time.Instant;
 import java.time.LocalDate;
 
 public class RegisterPatientCommand extends BaseCommand <String>{
@@ -9,8 +10,10 @@ public class RegisterPatientCommand extends BaseCommand <String>{
     private  final String gender;
     private  final String  contactNumber;
     private  final String  address;
+    private  final Instant  registeredAt;
 
-    public RegisterPatientCommand(String id ,String firstName, String lastName, LocalDate dateOfBirth, String gender, String contactNumber, String address) {
+
+    public RegisterPatientCommand(String id , String firstName, String lastName, LocalDate dateOfBirth, String gender, String contactNumber, String address, Instant registeredAt) {
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -18,31 +21,35 @@ public class RegisterPatientCommand extends BaseCommand <String>{
         this.gender = gender;
         this.contactNumber = contactNumber;
         this.address = address;
-    }
+        this.registeredAt = registeredAt;
 
+    }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getGender() {
-        return gender;
+    public String getAddress() {
+        return address;
     }
 
     public String getContactNumber() {
         return contactNumber;
     }
 
-    public String getAddress() {
-        return address;
+    public String getGender() {
+        return gender;
     }
 
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+    public Instant getRegisteredAt() {
+       return getRegisteredAt();
+    }
 }

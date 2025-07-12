@@ -2,6 +2,7 @@ package com.innovativecore.patientappointment.command.dto;
 
 import lombok.Data;
 
+import java.time.Instant;
 import java.time.LocalDate;
 @Data
 public class RegisterPatientRequest {
@@ -11,4 +12,5 @@ public class RegisterPatientRequest {
     private   String gender;
     private   String  contactNumber;
     private   String  address;
+    private Instant registeredAt;
 }

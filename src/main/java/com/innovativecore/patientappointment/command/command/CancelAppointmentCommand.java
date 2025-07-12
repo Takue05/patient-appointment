@@ -1,6 +1,5 @@
 package com.innovativecore.patientappointment.command.command;
 
-import io.axoniq.axonserver.grpc.command.Command;
 
 public class CancelAppointmentCommand extends BaseCommand<String>{
     private final String cancellationReason;
