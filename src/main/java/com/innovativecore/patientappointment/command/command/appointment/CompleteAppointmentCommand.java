@@ -1,6 +1,8 @@
-package com.innovativecore.patientappointment.command.command;
+package com.innovativecore.patientappointment.command.command.appointment;
 
-public class CompleteAppointmentCommand extends BaseCommand <String> {
+import com.innovativecore.patientappointment.command.command.BaseCommand;
+
+public class CompleteAppointmentCommand extends BaseCommand<String> {
     private final String  completeNotes;
 
     public CompleteAppointmentCommand(String id, String completeNotes) {

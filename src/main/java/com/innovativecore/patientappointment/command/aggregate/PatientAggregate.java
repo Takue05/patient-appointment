@@ -1,14 +1,14 @@
 package com.innovativecore.patientappointment.command.aggregate;
 
-import com.innovativecore.patientappointment.command.command.RegisterPatientCommand;
-import com.innovativecore.patientappointment.command.command.UpdatePatientCommand;
+import com.innovativecore.patientappointment.command.command.patient.RegisterPatientCommand;
+import com.innovativecore.patientappointment.command.command.appointment.UpdatePatientCommand;
 import com.innovativecore.patientappointment.common.event.PatientRegisteredEvent;
 import com.innovativecore.patientappointment.common.event.PatientUpdatedEvent;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
-import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import java.time.Instant;
@@ -18,6 +18,7 @@ import java.util.Map;
 
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
+@Getter
 @Aggregate
 @Slf4j
 public class PatientAggregate {
@@ -112,39 +113,4 @@ public class PatientAggregate {
         this.updatedAt = Instant.now();
     }
 
-    public String getPatientId() {
-        return patientId;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public Instant getRegisteredAt() {
-        return registeredAt;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
 }

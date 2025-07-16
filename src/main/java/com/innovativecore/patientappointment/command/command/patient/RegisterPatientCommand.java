@@ -1,9 +1,11 @@
-package com.innovativecore.patientappointment.command.command;
+package com.innovativecore.patientappointment.command.command.patient;
+
+import com.innovativecore.patientappointment.command.command.BaseCommand;
 
 import java.time.Instant;
 import java.time.LocalDate;
 
-public class RegisterPatientCommand extends BaseCommand <String>{
+public class RegisterPatientCommand extends BaseCommand<String> {
     private  final String  firstName;
     private  final String  lastName;
     private final LocalDate dateOfBirth;
@@ -49,7 +51,8 @@ public class RegisterPatientCommand extends BaseCommand <String>{
     public String getLastName() {
         return lastName;
     }
+
     public Instant getRegisteredAt() {
-       return getRegisteredAt();
+       return registeredAt;
     }
 }

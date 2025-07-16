@@ -1,5 +1,7 @@
-package com.innovativecore.patientappointment.command.command;
+package com.innovativecore.patientappointment.command.command.appointment;
 
+
+import com.innovativecore.patientappointment.command.command.BaseCommand;
 
 import java.time.LocalDateTime;
 

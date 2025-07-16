@@ -1,7 +1,9 @@
-package com.innovativecore.patientappointment.command.command;
+package com.innovativecore.patientappointment.command.command.appointment;
 
 
-public class CancelAppointmentCommand extends BaseCommand<String>{
+import com.innovativecore.patientappointment.command.command.BaseCommand;
+
+public class CancelAppointmentCommand extends BaseCommand<String> {
     private final String cancellationReason;
 
     public CancelAppointmentCommand(String id ,String cancellationReason) {

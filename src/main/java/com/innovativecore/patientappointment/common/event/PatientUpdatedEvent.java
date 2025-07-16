@@ -1,10 +1,13 @@
 package com.innovativecore.patientappointment.common.event;
 
+import lombok.Getter;
+
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
 
+@Getter
 public class PatientUpdatedEvent extends BaseEvent<String>{
 
         private final Map<String, String> updatedFields;
@@ -21,16 +24,5 @@ public class PatientUpdatedEvent extends BaseEvent<String>{
             this.updatedBy = updatedBy;
         }
 
-    public Map<String, String> getUpdatedFields() {
-        return updatedFields;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
 }
 

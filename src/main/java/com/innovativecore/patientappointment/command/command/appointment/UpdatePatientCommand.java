@@ -1,9 +1,11 @@
-package com.innovativecore.patientappointment.command.command;
+package com.innovativecore.patientappointment.command.command.appointment;
+
+import com.innovativecore.patientappointment.command.command.BaseCommand;
 
 import java.time.Instant;
 import java.util.Optional;
 
-public class UpdatePatientCommand extends BaseCommand <String> {
+public class UpdatePatientCommand extends BaseCommand<String> {
 
     private final Optional<String> contactNumber;
     private final Optional<String> address;
@@ -11,7 +13,7 @@ public class UpdatePatientCommand extends BaseCommand <String> {
     private final Instant updatedAt;
     private final String updatedBy;
 
-    public UpdatePatientCommand(String id, String name, String gender, String contactNumber, String address, String updatedBy, Instant updatedAt) {
+    public UpdatePatientCommand(String id, String gender, String contactNumber, String address, String updatedBy, Instant updatedAt) {
 super(id);
         this.contactNumber = Optional.ofNullable(contactNumber);
         this.address = Optional.ofNullable(address);

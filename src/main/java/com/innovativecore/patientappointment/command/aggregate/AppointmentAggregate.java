@@ -1,11 +1,12 @@
 package com.innovativecore.patientappointment.command.aggregate;
 
-import com.innovativecore.patientappointment.command.command.CancelAppointmentCommand;
-import com.innovativecore.patientappointment.command.command.CompleteAppointmentCommand;
-import com.innovativecore.patientappointment.command.command.ScheduleAppointmentCommand;
+import com.innovativecore.patientappointment.command.command.appointment.CancelAppointmentCommand;
+import com.innovativecore.patientappointment.command.command.appointment.CompleteAppointmentCommand;
+import com.innovativecore.patientappointment.command.command.appointment.ScheduleAppointmentCommand;
 import com.innovativecore.patientappointment.common.event.AppointmentCancelledEvent;
 import com.innovativecore.patientappointment.common.event.AppointmentCompletedEvent;
 import com.innovativecore.patientappointment.common.event.AppointmentScheduledEvent;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -15,10 +16,12 @@ import org.axonframework.spring.stereotype.Aggregate;
 
 import java.time.LocalDateTime;
 
+@Getter
 @Aggregate
 @Slf4j
 public class AppointmentAggregate {
 
+    // Getters
     @AggregateIdentifier
     private String appointmentId;
     private String patientId;
@@ -114,13 +117,4 @@ public class AppointmentAggregate {
         this.status = "COMPLETED";
     }
 
-    // Getters
-    public String getAppointmentId() { return appointmentId; }
-    public String getPatientId() { return patientId; }
-    public String getDoctorId() { return doctorId; }
-    public LocalDateTime getAppointmentDateTime() { return appointmentDateTime; }
-    public String getReason() { return reason; }
-    public String getCancellationReason() { return cancellationReason; }
-    public String getCompleteNotes() { return completeNotes; }
-    public String getStatus() { return status; }
 }
