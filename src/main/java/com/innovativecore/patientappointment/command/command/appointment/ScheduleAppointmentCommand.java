@@ -1,25 +1,24 @@
-package com.innovativecore.patientappointment.common.event;
+package com.innovativecore.patientappointment.command.command.appointment;
+
+
+import com.innovativecore.patientappointment.command.command.BaseCommand;
 
 import java.time.LocalDateTime;
 
-public class AppointmentScheduledEvent extends BaseEvent<String>{
+public class ScheduleAppointmentCommand  extends BaseCommand<String> {
     private  final String  patientId;
     private  final String  doctorId;
     private final LocalDateTime appointmentDateTime;
     private  final String reason;
 
-    public AppointmentScheduledEvent(String id , String patientId, String doctorId, LocalDateTime appointmentDateTime, String reason) {
+    public ScheduleAppointmentCommand(String id, String patientId, String doctorId, LocalDateTime appointmentDateTime, String reason) {
         super(id);
         this.patientId = patientId;
         this.doctorId = doctorId;
         this.appointmentDateTime = appointmentDateTime;
         this.reason = reason;
-
     }
 
-    public String getPatientId() {
-        return patientId;
-    }
 
     public String getReason() {
         return reason;
@@ -32,4 +31,10 @@ public class AppointmentScheduledEvent extends BaseEvent<String>{
     public String getDoctorId() {
         return doctorId;
     }
+
+    public String getPatientId() {
+        return patientId;
+    }
+
+
 }
