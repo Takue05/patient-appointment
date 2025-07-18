@@ -1,19 +1,19 @@
-package com.innovativecore.patientappointment.command.command.appointment;
-
+package com.innovativecore.patientappointment.common.event.appointment;
 
 import com.innovativecore.patientappointment.command.aggregate.AppointmentStatus;
 import lombok.Value;
-import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import java.time.LocalDateTime;
+
 @Value
-public class ScheduleAppointmentCommand {
-    @TargetAggregateIdentifier
-    String appointmentId;
+public class AppointmentScheduledEvent{
+    String  appointmentId;
     String  patientId;
     String  doctorId;
     LocalDateTime appointmentDateTime;
     String reason;
     AppointmentStatus Status;
+
+
 
 }

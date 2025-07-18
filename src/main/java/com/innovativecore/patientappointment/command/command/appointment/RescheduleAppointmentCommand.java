@@ -4,11 +4,11 @@ import com.innovativecore.patientappointment.command.aggregate.AppointmentStatus
 import lombok.Value;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
+import java.time.LocalDateTime;
 @Value
-public class CancelAppointmentCommand {
+public class RescheduleAppointmentCommand {
     @TargetAggregateIdentifier
     String appointmentId;
-   String cancellationReason;
-   AppointmentStatus status;
-
+    LocalDateTime AppointmentDateTime;
+    AppointmentStatus status;
 }

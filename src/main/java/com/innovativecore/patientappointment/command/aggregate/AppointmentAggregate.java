@@ -2,19 +2,20 @@ package com.innovativecore.patientappointment.command.aggregate;
 
 import com.innovativecore.patientappointment.command.command.appointment.CancelAppointmentCommand;
 import com.innovativecore.patientappointment.command.command.appointment.CompleteAppointmentCommand;
+import com.innovativecore.patientappointment.command.command.appointment.RescheduleAppointmentCommand;
 import com.innovativecore.patientappointment.command.command.appointment.ScheduleAppointmentCommand;
-import com.innovativecore.patientappointment.common.event.AppointmentCancelledEvent;
-import com.innovativecore.patientappointment.common.event.AppointmentCompletedEvent;
-import com.innovativecore.patientappointment.common.event.AppointmentScheduledEvent;
+import com.innovativecore.patientappointment.common.event.appointment.AppointmentCancelledEvent;
+import com.innovativecore.patientappointment.common.event.appointment.AppointmentCompletedEvent;
+import com.innovativecore.patientappointment.common.event.appointment.AppointmentRescheduledEvent;
+import com.innovativecore.patientappointment.common.event.appointment.AppointmentScheduledEvent;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
-import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 
-import java.time.LocalDateTime;
+import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 @Getter
 @Aggregate
@@ -26,95 +27,90 @@ public class AppointmentAggregate {
     private String appointmentId;
     private String patientId;
     private String doctorId;
-    private LocalDateTime appointmentDateTime;
-    private String reason;
-    private String cancellationReason;
-    private String completeNotes;
-    private String status;
+    private AppointmentStatus Status;
 
     public AppointmentAggregate() {
     }
 
     @CommandHandler
     public AppointmentAggregate(ScheduleAppointmentCommand scheduleAppointmentCommand) {
-        log.debug("ScheduleAppointmentCommand received for ID: {}", scheduleAppointmentCommand.getId());
-
-        if (scheduleAppointmentCommand.getId() == null || scheduleAppointmentCommand.getId().isEmpty()) {
+        log.debug("ScheduleAppointmentCommand received for ID: {}", scheduleAppointmentCommand.getAppointmentId());
+        if (scheduleAppointmentCommand.getAppointmentId() == null) {
             throw new IllegalArgumentException("Appointment ID cannot be null or empty");
         }
-
-        if (scheduleAppointmentCommand.getAppointmentDateTime().isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Cannot schedule appointment in the past");
+        if (scheduleAppointmentCommand.getPatientId() == null) {
+            throw new IllegalArgumentException("Patient ID cannot be null or empty");
         }
-
-        AggregateLifecycle.apply(new AppointmentScheduledEvent(
-                scheduleAppointmentCommand.getId(),
+        apply(new AppointmentScheduledEvent(
+                scheduleAppointmentCommand.getAppointmentId(),
                 scheduleAppointmentCommand.getPatientId(),
                 scheduleAppointmentCommand.getDoctorId(),
                 scheduleAppointmentCommand.getAppointmentDateTime(),
-                scheduleAppointmentCommand.getReason()
+                scheduleAppointmentCommand.getReason(),
+                scheduleAppointmentCommand.getStatus()
+
         ));
+
+    }
+    @CommandHandler
+    public void handle(CompleteAppointmentCommand completeAppointmentCommand) {
+        log.debug("AppointmentCompletedEvent received for ID: {}", completeAppointmentCommand.getAppointmentId());
+        if (completeAppointmentCommand.getAppointmentId() == null) {
+            throw new IllegalArgumentException("Appointment ID cannot be null or empty");
+        }
+        if (completeAppointmentCommand.getCompleteNotes() == null) {
+            throw new IllegalArgumentException("Complete Notes cannot be null or empty");
+        }
+
+        apply(new AppointmentCompletedEvent(
+                completeAppointmentCommand.getAppointmentId(),
+                completeAppointmentCommand.getCompleteNotes(),
+                completeAppointmentCommand.getStatus()
+
+        ));
+
     }
 
-    @EventSourcingHandler
-    public void on(AppointmentScheduledEvent appointmentScheduledEvent) {
-        log.debug("AppointmentScheduledEvent occurred for ID: {}", appointmentScheduledEvent.getId());
-        this.appointmentId = appointmentScheduledEvent.getId();
-        this.patientId = appointmentScheduledEvent.getPatientId();
-        this.doctorId = appointmentScheduledEvent.getDoctorId();
-        this.appointmentDateTime = appointmentScheduledEvent.getAppointmentDateTime();
-        this.reason = appointmentScheduledEvent.getReason();
-        this.status = "SCHEDULED";
+    @CommandHandler
+    public void handle(RescheduleAppointmentCommand  rescheduleAppointmentCommand) {
+        log.debug("RescheduleAppointmentCommand received for ID: {}", rescheduleAppointmentCommand.getAppointmentId());
+        if (rescheduleAppointmentCommand.getAppointmentId() == null) {
+            throw new IllegalArgumentException("Appointment ID cannot be null or empty");
+        }
+        if (rescheduleAppointmentCommand.getAppointmentDateTime() == null) {
+            throw new IllegalArgumentException("The new appointment date cannot be null or empty");
+        }
+
+        apply(new AppointmentRescheduledEvent(
+                rescheduleAppointmentCommand.getAppointmentId(),
+                rescheduleAppointmentCommand.getAppointmentDateTime(),
+                rescheduleAppointmentCommand.getStatus()
+        ));
     }
 
     @CommandHandler
     public void handle(CancelAppointmentCommand cancelAppointmentCommand) {
-        log.debug("CancelAppointmentCommand received for ID: {}", cancelAppointmentCommand.getId());
-
-        if ("CANCELLED".equals(this.status)) {
-            throw new IllegalStateException("Appointment is already cancelled");
+        log.debug("CancelAppointmentCommand received for ID: {}", cancelAppointmentCommand.getAppointmentId());
+        if (cancelAppointmentCommand.getAppointmentId() == null) {
+            throw new IllegalArgumentException("Appointment ID cannot be null or empty");
         }
-
-        if ("COMPLETED".equals(this.status)) {
-            throw new IllegalStateException("Cannot cancel a completed appointment");
+        if(cancelAppointmentCommand.getCancellationReason() == null) {
+            throw new IllegalArgumentException("Cancellation Reason cannot be null or empty");
         }
-
-        AggregateLifecycle.apply(new AppointmentCancelledEvent(
-                cancelAppointmentCommand.getId(),
-                cancelAppointmentCommand.getCancellationReason()
+        apply(new AppointmentCancelledEvent(
+                cancelAppointmentCommand.getAppointmentId(),
+                cancelAppointmentCommand.getCancellationReason(),
+                cancelAppointmentCommand.getStatus()
         ));
     }
 
     @EventSourcingHandler
-    public void on(AppointmentCancelledEvent appointmentCancelledEvent) {
-        log.debug("AppointmentCancelledEvent occurred for ID: {}", appointmentCancelledEvent.getId());
-        this.cancellationReason = appointmentCancelledEvent.getCancellationReason();
-        this.status = "CANCELLED";
-    }
+    public void handle(AppointmentScheduledEvent event) {
+        this.appointmentId = event.getAppointmentId();
+        this.patientId = event.getPatientId();
+        this.doctorId = event.getDoctorId();
+        this.Status = event.getStatus();
 
-    @CommandHandler
-    public void handle(CompleteAppointmentCommand completeAppointmentCommand) {
-        log.debug("CompleteAppointmentCommand received for ID: {}", completeAppointmentCommand.getId());
-
-        if ("CANCELLED".equals(this.status)) {
-            throw new IllegalStateException("Cannot complete a cancelled appointment");
-        }
-
-        if ("COMPLETED".equals(this.status)) {
-            throw new IllegalStateException("Appointment is already completed");
-        }
-
-        AggregateLifecycle.apply(new AppointmentCompletedEvent(
-                completeAppointmentCommand.getId(),
-                completeAppointmentCommand.getCompleteNotes()
-        ));
-    }
-
-    @EventSourcingHandler
-    public void on(AppointmentCompletedEvent appointmentCompletedEvent) {
-        log.debug("AppointmentCompletedEvent occurred for ID: {}", appointmentCompletedEvent.getId());
-        this.completeNotes = appointmentCompletedEvent.getCompleteNotes();
-        this.status = "COMPLETED";
     }
 
 }
