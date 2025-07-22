@@ -38,8 +38,8 @@ public class ManageApointmentService {
         appointment.setAppointmentDateTime(appointmentScheduledEvent.getAppointmentDateTime());
         appointment.setAppointmentReason(appointmentScheduledEvent.getReason());
         appointment.setStatus(appointmentScheduledEvent.getStatus().toString());
-        appointment.setNotes(" ");
-        appointment.setAppointCancellationReason("");
+//        appointment.setNotes(" ");
+//        appointment.setAppointCancellationReason("");
 
         appointmentRepository.save(appointment);
 

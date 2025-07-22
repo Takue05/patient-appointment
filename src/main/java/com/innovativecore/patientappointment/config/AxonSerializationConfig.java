@@ -10,30 +10,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-/**
- * Configuration class for secure XStream serialization in Axon Framework
- */
+
 @Configuration
 public class AxonSerializationConfig {
 
-    /**
-     * Creates a secure XStream serializer with proper security permissions
-     * This fixes the ForbiddenClassException by allowing your domain classes
-     */
+
     @Bean
     @Primary
     public Serializer axonXStreamSerializer() {
         XStream xStream = new XStream();
 
-        // Clear all existing permissions (deny all by default)
         xStream.addPermission(NoTypePermission.NONE);
 
-        // Allow primitive types and their wrappers
+
         xStream.addPermission(PrimitiveTypePermission.PRIMITIVES);
 
-        // Allow common Java types
+
         xStream.addPermission(new ExplicitTypePermission(new Class[]{
-                // Java standard library classes
+
                 java.lang.String.class,
                 java.lang.Integer.class,
                 java.lang.Long.class,
@@ -47,7 +41,7 @@ public class AxonSerializationConfig {
                 java.time.Instant.class,
                 java.util.UUID.class,
 
-                // Collections
+
                 java.util.ArrayList.class,
                 java.util.HashMap.class,
                 java.util.HashSet.class,
@@ -57,7 +51,7 @@ public class AxonSerializationConfig {
                 java.util.TreeSet.class,
                 java.util.Arrays.class,
 
-                // Axon Framework internal classes
+
                 org.axonframework.eventhandling.DomainEventMessage.class,
                 org.axonframework.eventhandling.GenericDomainEventMessage.class,
                 org.axonframework.messaging.MetaData.class,

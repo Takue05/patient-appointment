@@ -35,12 +35,12 @@ public class AppointmentAggregate {
     @CommandHandler
     public AppointmentAggregate(ScheduleAppointmentCommand scheduleAppointmentCommand) {
         log.debug("ScheduleAppointmentCommand received for ID: {}", scheduleAppointmentCommand.getAppointmentId());
-        if (scheduleAppointmentCommand.getAppointmentId() == null) {
-            throw new IllegalArgumentException("Appointment ID cannot be null or empty");
-        }
-        if (scheduleAppointmentCommand.getPatientId() == null) {
-            throw new IllegalArgumentException("Patient ID cannot be null or empty");
-        }
+//        if (scheduleAppointmentCommand.getAppointmentId() == null) {
+//            throw new IllegalArgumentException("Appointment ID cannot be null or empty");
+//        }
+//        if (scheduleAppointmentCommand.getPatientId() == null) {
+//            throw new IllegalArgumentException("Patient ID cannot be null or empty");
+//        }
         apply(new AppointmentScheduledEvent(
                 scheduleAppointmentCommand.getAppointmentId(),
                 scheduleAppointmentCommand.getPatientId(),

@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name="patient")
+@Table(catalog = "Appointments", schema="Appointments" )
 public class Patient {
     @Id
     private  String  patientId;
