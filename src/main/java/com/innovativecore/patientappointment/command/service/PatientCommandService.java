@@ -1,9 +1,9 @@
 package com.innovativecore.patientappointment.command.service;
 
-import com.innovativecore.patientappointment.command.command.appointment.UpdatePatientCommand;
+import com.innovativecore.patientappointment.command.command.patient.UpdatePatientCommand;
 import com.innovativecore.patientappointment.command.command.patient.RegisterPatientCommand;
-import com.innovativecore.patientappointment.command.dto.RegisterPatientRequest;
-import com.innovativecore.patientappointment.command.dto.UpdatePatientRequest;
+import com.innovativecore.patientappointment.command.dto.patientDTO.RegisterPatientRequest;
+import com.innovativecore.patientappointment.command.dto.patientDTO.UpdatePatientRequest;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +34,13 @@ public class PatientCommandService {
     }
     public CompletableFuture<String> updatePatient(UpdatePatientRequest updatePatientRequest) {
         return commandGateway.send(new UpdatePatientCommand(
-                updatePatientRequest.getId(),
-                updatePatientRequest.getGender(),
-                updatePatientRequest.getContactNumber(),
-                updatePatientRequest.getUpdatedBy(),
+                updatePatientRequest.getPatientId(),
                 updatePatientRequest.getAddress(),
-                updatePatientRequest.getUpdatedAt())
+                updatePatientRequest.getContactNumber(),
+                updatePatientRequest.getGender()
+
+                )
+
         );
     }
 }

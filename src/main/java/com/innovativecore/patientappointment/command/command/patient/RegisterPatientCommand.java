@@ -1,22 +1,27 @@
 package com.innovativecore.patientappointment.command.command.patient;
 
-import com.innovativecore.patientappointment.command.command.BaseCommand;
+import lombok.Value;
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.UUID;
 
-public class RegisterPatientCommand extends BaseCommand<String> {
-    private  final String  firstName;
-    private  final String  lastName;
-    private final LocalDate dateOfBirth;
-    private  final String gender;
-    private  final String  contactNumber;
-    private  final String  address;
-    private  final Instant  registeredAt;
+@Value
+public class RegisterPatientCommand{
+    @TargetAggregateIdentifier
+    String patientId;
+    String  firstName;
+    String  lastName;
+    LocalDate dateOfBirth;
+    String gender;
+    String  contactNumber;
+    String  address;
+    Instant  registeredAt;
 
 
-    public RegisterPatientCommand(String id , String firstName, String lastName, LocalDate dateOfBirth, String gender, String contactNumber, String address, Instant registeredAt) {
-        super(id);
+    public RegisterPatientCommand(String patientId, String firstName, String lastName, LocalDate dateOfBirth, String gender, String contactNumber, String address, Instant registeredAt) {
+        this.patientId = patientId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -25,34 +30,5 @@ public class RegisterPatientCommand extends BaseCommand<String> {
         this.address = address;
         this.registeredAt = registeredAt;
 
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public Instant getRegisteredAt() {
-       return registeredAt;
     }
 }

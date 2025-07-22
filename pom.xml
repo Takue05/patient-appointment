@@ -69,7 +69,35 @@
 			<scope>test</scope>
 		</dependency>
 
-	</dependencies>
+
+			<dependency>
+				<groupId>ca.uhn.hapi.fhir</groupId>
+				<artifactId>hapi-fhir-base</artifactId>
+				<version>6.10.5</version>
+			</dependency>
+
+			<!-- FHIR R4 Structures -->
+			<dependency>
+				<groupId>ca.uhn.hapi.fhir</groupId>
+				<artifactId>hapi-fhir-structures-r4</artifactId>
+				<version>6.10.5</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>ca.uhn.hapi.fhir</groupId>
+				<artifactId>hapi-fhir-server</artifactId>
+				<version>6.10.5</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>ca.uhn.hapi.fhir</groupId>
+				<artifactId>hapi-fhir-spring-boot-starter</artifactId>
+				<version>6.10.5</version>
+			</dependency>
+		</dependencies>
+
 
 	<build>
 		<plugins>

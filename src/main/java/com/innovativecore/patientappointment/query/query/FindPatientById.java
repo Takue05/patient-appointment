@@ -3,7 +3,7 @@ package com.innovativecore.patientappointment.query.query;
 import lombok.Data;
 
 @Data
-public class FindPatientById {
+public class FindPatientById  {
 
     private String patientId;
 

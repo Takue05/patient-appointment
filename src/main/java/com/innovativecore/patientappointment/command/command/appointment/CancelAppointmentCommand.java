@@ -1,17 +1,14 @@
 package com.innovativecore.patientappointment.command.command.appointment;
 
+import com.innovativecore.patientappointment.command.aggregate.AppointmentStatus;
+import lombok.Value;
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
-import com.innovativecore.patientappointment.command.command.BaseCommand;
+@Value
+public class CancelAppointmentCommand {
+    @TargetAggregateIdentifier
+    String appointmentId;
+   String cancellationReason;
+   AppointmentStatus status;
 
-public class CancelAppointmentCommand extends BaseCommand<String> {
-    private final String cancellationReason;
-
-    public CancelAppointmentCommand(String id ,String cancellationReason) {
-        super(id);
-        this.cancellationReason = cancellationReason;
-    }
-
-    public String getCancellationReason() {
-        return cancellationReason;
-    }
 }
