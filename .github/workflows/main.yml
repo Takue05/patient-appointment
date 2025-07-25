@@ -9,6 +9,21 @@ jobs:
   build-deploy:
     name: Build & Deploy Patient Appointment Management System
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7.20
+        env:
+          MYSQL_ROOT_PASSWORD: ""
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+          MYSQL_DATABASE: pams_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,8 +34,18 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-#      - name: Unit Tests
-#        run: mvn -B test --file pom.xml
+      - name: Wait for MySQL
+        run: |
+          while ! mysqladmin ping -h"127.0.0.1" --silent; do
+            sleep 1
+          done
+
+      - name: Unit Tests
+        run: mvn -B test --file pom.xml
+
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/pams_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+
 
 
       - name: Build the Application
